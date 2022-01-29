@@ -12,7 +12,7 @@ namespace Assignment3.Controllers
 {
     public class PeopleController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db = new Assignment3.Models.ApplicationDbContext();
 
         // GET: People
         public ActionResult Index()
