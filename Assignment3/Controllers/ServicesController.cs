@@ -12,7 +12,7 @@ namespace Assignment3.Controllers
 {
     public class ServicesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db = new Assignment3.Models.ApplicationDbContext();
 
         // GET: Services
         public ActionResult Index()
