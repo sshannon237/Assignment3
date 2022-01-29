@@ -12,13 +12,13 @@ namespace Assignment3.Controllers
 {
     public class EmployeesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db = new Assignment3.Models.ApplicationDbContext();
 
         // GET: Employees
         public ActionResult Index()
         {
             List<Employee> employees = new List<Employee>();
-            foreach(var person in db.People.ToList()) {
+            foreach(var person in   db.People.ToList()) {
                 if(person is Customer)
                     employees.Add(person as Employee);
             }
