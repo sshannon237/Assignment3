@@ -19,7 +19,7 @@ namespace Assignment3.Controllers
         {
             List<Employee> employees = new List<Employee>();
             foreach(var person in   db.People.ToList()) {
-                if(person is Customer)
+                if(person is Employee)
                     employees.Add(person as Employee);
             }
 
