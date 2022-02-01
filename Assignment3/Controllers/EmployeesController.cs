@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Assignment3.Models;
+using Assignment3.ViewModels;
 
 namespace Assignment3.Controllers
 {
@@ -72,12 +73,20 @@ namespace Assignment3.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = (Employee) db.People.Find(id);
-            if (employee == null)
-            {
+
+            var employeeServiceViewModel = new EmployeeServiceViewModel {
+                Employee = db.Employees.Include(i => i.Services).First(i => i.Id == id)
+            };
+
+            if(employeeServiceViewModel.Employee == null)
                 return HttpNotFound();
-            }
-            return View(employee);
+
+            var allServicesList = db.Services.ToList();
+            employeeServiceViewModel.AllServices = allServicesList.Select(o => new SelectListItem {
+                Text = o.Name,
+                Value = o.Id.ToString()
+            });
+            return View(employeeServiceViewModel);
         }
 
         // POST: Employees/Edit/5
@@ -85,7 +94,7 @@ namespace Assignment3.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Address,Salary")] Employee employee)
+        public ActionResult Edit([Bind(Include = "Id, Name, Address, Salary, SelectedServices")] Employee employee)
         {
             if (ModelState.IsValid)
             {

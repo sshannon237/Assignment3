@@ -138,6 +138,7 @@
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\EmployeeServiceViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\DefaultConnection.mdf" />
