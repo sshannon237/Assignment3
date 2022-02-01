@@ -94,13 +94,26 @@ namespace Assignment3.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id, Name, Address, Salary, SelectedServices")] Employee employee)
+        public ActionResult Edit(FormCollection data, [Bind(Include = "Id, Name, Address, Salary")] Employee employee)
         {
             if (ModelState.IsValid)
             {
+                Console.WriteLine(data.Get("SelectedServices"));
+                var test = data.Get("SelectedServices");
+                var services = test.Split(',');
+                ICollection<Service> serviceList = new HashSet<Service>();
+                foreach (String service in services)
+                {
+                    int parsedInt = Int32.Parse(service);
+                    Service nextService = db.Services.Find(parsedInt);
+                    nextService.Employees.Add(employee);
+                    db.Entry(nextService).State = EntityState.Modified;
+                    employee.Services.Add(nextService);
+                }
                 db.Entry(employee).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
+               
             }
             return View(employee);
         }
@@ -131,6 +144,19 @@ namespace Assignment3.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost, ActionName("DeleteService")]
+        public ActionResult DeleteService(int employeeId, int serviceId)
+        {
+            Console.WriteLine(employeeId);
+
+            Employee employee = (Employee)db.People.Find(employeeId);
+            Service service = (Service)db.Services.Find(serviceId);
+            employee.Services.Remove(service);
+            service.Employees.Remove(employee);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -139,5 +165,6 @@ namespace Assignment3.Controllers
             }
             base.Dispose(disposing);
         }
+
     }
 }
