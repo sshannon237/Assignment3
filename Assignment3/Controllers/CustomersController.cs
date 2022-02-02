@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Assignment3.Models;
+using Assignment3.ViewModels;
 
 namespace Assignment3.Controllers
 {
@@ -72,12 +73,22 @@ namespace Assignment3.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = (Customer) db.People.Find(id);
-            if (customer == null)
+            var customerServiceViewModel = new CustomerServiceViewModel
+            {
+                Customer = db.Customers.Include(i => i.Services).First(i => i.Id == id)
+            };
+            if (customerServiceViewModel.Customer == null)
             {
                 return HttpNotFound();
             }
-            return View(customer);
+
+            var allServicesList = db.Services.ToList();
+            customerServiceViewModel.AllServices = allServicesList.Select(o => new SelectListItem
+            {
+                Text = o.Name,
+                Value = o.Id.ToString()
+            });
+            return View(customerServiceViewModel);
         }
 
         // POST: Customers/Edit/5
@@ -85,13 +96,27 @@ namespace Assignment3.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Address")] Customer customer)
+        public ActionResult Edit(FormCollection data, [Bind(Include = "Id,Name,Address")] Customer customer)
         {
             if (ModelState.IsValid)
             {
+
+                Console.WriteLine(data.Get("SelectedServices"));
+                var test = data.Get("SelectedServices");
+                var services = test.Split(',');
+                ICollection<Service> serviceList = new HashSet<Service>();
+                foreach (String service in services)
+                {
+                    int parsedInt = Int32.Parse(service);
+                    Service nextService = db.Services.Find(parsedInt);
+                    nextService.Customers.Add(customer);
+                    db.Entry(nextService).State = EntityState.Modified;
+                    customer.Services.Add(nextService);
+                }
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
+
             }
             return View(customer);
         }
@@ -113,11 +138,23 @@ namespace Assignment3.Controllers
 
         // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Customer customer = (Customer) db.People.Find(id);
             db.People.Remove(customer);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost, ActionName("DeleteService")]
+        public ActionResult DeleteService(int customerId, int serviceId)
+        {
+            Console.WriteLine(customerId);
+
+            Customer customer = (Customer)db.People.Find(customerId);
+            Service service = (Service)db.Services.Find(serviceId);
+            customer.Services.Remove(service);
+            service.Customers.Remove(customer);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

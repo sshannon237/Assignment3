@@ -8,6 +8,8 @@ namespace Assignment3.Models {
         public ApplicationDbContext()
             : base("DefaultConnection") {
         }
+
+
         public DbSet<Person> People {
             get; set;
         }
@@ -20,6 +22,8 @@ namespace Assignment3.Models {
         public DbSet<Employee> Employees     {
             get; set;
         }
+
+        
 
     }
 }
