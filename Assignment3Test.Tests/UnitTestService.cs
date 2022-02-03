@@ -17,7 +17,7 @@ namespace Assignment3Test.Tests
         }
 
         [TestMethod]
-        public void TestCreateService()
+        public void Test1()
         {
             driver.Navigate().GoToUrl(url);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
@@ -27,10 +27,11 @@ namespace Assignment3Test.Tests
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             driver.FindElement(By.Id("Name")).SendKeys("Rent");
             driver.FindElement(By.XPath("//Input[@type='submit']")).Click();
+            driver.Close();
         }
 
         [TestMethod]
-        public void TestEditService()
+        public void Test2()
         {
             driver.Navigate().GoToUrl(url);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
@@ -41,10 +42,11 @@ namespace Assignment3Test.Tests
             driver.FindElement(By.Id("Name")).Clear();
             driver.FindElement(By.Id("Name")).SendKeys("Online Purchase");
             driver.FindElement(By.XPath("//Input[@type='submit']")).Click();
+            driver.Close();
         }
 
         [TestMethod]
-        public void TestReadService()
+        public void Test3()
         {
             driver.Navigate().GoToUrl(url);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
@@ -53,10 +55,11 @@ namespace Assignment3Test.Tests
             driver.FindElement(By.LinkText("Details")).Click();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             driver.FindElement(By.XPath("//*[contains(text(), 'Online Purchase')]"));
+            driver.Close();
         }
 
         [TestMethod]
-        public void TestDeleteService()
+        public void Test4()
         {
             driver.Navigate().GoToUrl(url);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
@@ -65,6 +68,7 @@ namespace Assignment3Test.Tests
             driver.FindElement(By.LinkText("Delete")).Click();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             driver.FindElement(By.XPath("//Input[@type='submit']")).Click();
+            driver.Close();
         }
     }
 }

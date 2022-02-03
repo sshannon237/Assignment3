@@ -17,7 +17,7 @@ namespace Assignment3Test.Tests
 
         // Testing Employee Creation
         [TestMethod]
-        public void TestCreateEmployee()
+        public void Test1()
         {
             driver.Navigate().GoToUrl(url);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
@@ -27,32 +27,14 @@ namespace Assignment3Test.Tests
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             driver.FindElement(By.Id("Name")).SendKeys("Fest Fester");
             driver.FindElement(By.Id("Address")).SendKeys("123 Street St");
-            driver.FindElement(By.Id("Salary")).SendKeys("50,000");
+            driver.FindElement(By.Id("Salary")).SendKeys("50000");
             driver.FindElement(By.XPath("//Input[@type='submit']")).Click();
-        }
-
-        // Testing Employee Edit
-        [TestMethod]
-        public void TestEditEmployee()
-        {
-            driver.Navigate().GoToUrl(url);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-            driver.FindElement(By.LinkText("Employee")).Click();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-            driver.FindElement(By.LinkText("Edit")).Click();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-            driver.FindElement(By.Id("Name")).Clear();
-            driver.FindElement(By.Id("Name")).SendKeys("Test Tester");
-            driver.FindElement(By.Id("Address")).Clear();
-            driver.FindElement(By.Id("Address")).SendKeys("1414 Green Ave");
-            driver.FindElement(By.Id("Salary")).Clear();
-            driver.FindElement(By.Id("Salary")).SendKeys("80000");
-            driver.FindElement(By.XPath("//Input[@type='submit']")).Click();
+            driver.Close();
         }
 
         // Testing Employee Reading
         [TestMethod]
-        public void TestReadEmployee()
+        public void Test2()
         {
             driver.Navigate().GoToUrl(url);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
@@ -60,14 +42,35 @@ namespace Assignment3Test.Tests
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             driver.FindElement(By.LinkText("Details")).Click();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-            driver.FindElement(By.XPath("//*[contains(text(), 'Test Tester')]"));
-            driver.FindElement(By.XPath("//*[contains(text(), '1414 Green Ave')]"));
-            driver.FindElement(By.XPath("//*[contains(text(), '80000')]"));
+            driver.FindElement(By.XPath("//*[contains(text(), 'Fest Fester')]"));
+            driver.FindElement(By.XPath("//*[contains(text(), '123 Street St')]"));
+            driver.FindElement(By.XPath("//*[contains(text(), '50000')]"));
+            driver.Close();
+        }
+
+        // Testing Employee Edit
+        [TestMethod]
+        public void Test3()
+        {
+            driver.Navigate().GoToUrl(url);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            driver.FindElement(By.LinkText("Employee")).Click();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            driver.FindElement(By.LinkText("Edit")).Click();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            driver.FindElement(By.Id("Employee_Name")).Clear();
+            driver.FindElement(By.Id("Employee_Name")).SendKeys("Test Tester");
+            driver.FindElement(By.Id("Employee_Address")).Clear();
+            driver.FindElement(By.Id("Employee_Address")).SendKeys("1414 Green Ave");
+            driver.FindElement(By.Id("Employee_Salary")).Clear();
+            driver.FindElement(By.Id("Employee_Salary")).SendKeys("80000");
+            driver.FindElement(By.XPath("//Input[@type='submit']")).Click();
+            driver.Close();
         }
 
         // Testing Employee Deletion
         [TestMethod]
-        public void TestDeleteEmployee()
+        public void Test4()
         {
             driver.Navigate().GoToUrl(url);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
@@ -76,6 +79,7 @@ namespace Assignment3Test.Tests
             driver.FindElement(By.LinkText("Delete")).Click();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             driver.FindElement(By.XPath("//Input[@type='submit']")).Click();
+            driver.Close();
         }
     }
 }
