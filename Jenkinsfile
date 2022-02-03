@@ -10,7 +10,7 @@ pipeline {
 				}
 				stage('Build') {
     					steps {
-						nuget restore CodeBinder.sln
+						nuget restore Assignment3.sln
     					    bat "\"${tool 'MSBuild'}\" Assignment3.sln /t:restore /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:SkipInvalidConfigurations=true /t:build /p:Configuration=Release /p:Platform=\"Any CPU\" /p:DeleteExistingFiles=True /p:publishUrl=c:\\inetpub\\wwwroot"
     					}
 				}
