@@ -10,8 +10,8 @@ pipeline {
 				}
 				stage('Build') {
     					steps {
-						bat ("${tool MSBuild} /t:Restore MySln.sln")
-    					    bat "\"${tool 'MSBuild'}\" Assignment3.sln /p:RestorePackagesConfig=true /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:SkipInvalidConfigurations=true /t:build /p:Configuration=Release /p:Platform=\"Any CPU\" /p:DeleteExistingFiles=True /p:publishUrl=c:\\inetpub\\wwwroot"
+
+    					    bat "\"${tool 'MSBuild'}\" Assignment3.sln /t:restore /p:RestorePackagesConfig=true /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:SkipInvalidConfigurations=true /t:build /p:Configuration=Release /p:Platform=\"Any CPU\" /p:DeleteExistingFiles=True /p:publishUrl=c:\\inetpub\\wwwroot"
     					}
 				}
 			}
